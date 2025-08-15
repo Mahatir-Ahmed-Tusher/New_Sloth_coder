@@ -2,7 +2,7 @@
 import React, { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 // import { motion } from "framer-motion";
 import { motion } from "framer-motion";
 import { UserDetailContext } from "@/context/UserDetailContext";
@@ -19,6 +19,7 @@ const Header = () => {
   const { toggleSidebar } = useSidebar();
   const { action, setAction } = useContext(ActionContext);
   const pathname = usePathname();
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const onAction = (action) => {
@@ -68,9 +69,11 @@ const Header = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
+            onClick={() => router.push('/')}
+            className="cursor-pointer"
           >
             <Image
-              className="cursor-pointer  drop-shadow-[0_0_10px_rgba(255,255,0,0.4)] animate-glow"
+              className="cursor-pointer drop-shadow-[0_0_10px_rgba(255,255,0,0.4)] animate-glow hover:opacity-80 transition-opacity duration-300"
               src="/logo.png"
               alt="logo"
               width={40}

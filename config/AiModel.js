@@ -66,7 +66,7 @@ async function generateWithQwen(currPrompt, his = []) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "qwen/qwen2.5-7b-instruct",
+      model: "qwen/qwen3-coder:free",
       messages: messages
     })
   });

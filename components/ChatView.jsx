@@ -217,15 +217,24 @@ const ChatView = () => {
         
 
         <motion.div
-          className="p-5 border rounded-xl max-w-2xl w-full mt-3"
+          className="relative p-5 border border-gray-600/30 rounded-xl max-w-2xl w-full mt-3 backdrop-blur-md bg-white/5 shadow-2xl"
+          style={{
+            boxShadow: '0 0 20px rgba(255, 255, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          }}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
         >
-          <div className="flex gap-2">
+          {/* Glowing border effect */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-yellow-400/20 via-transparent to-yellow-400/20 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          
+          {/* Glassmorphic overlay */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm"></div>
+          
+          <div className="relative z-10 flex gap-2">
             <textarea
             value={userInput}
-              className="outline-none bg-transparent w-full h-32 max-h-56 resize-none"
+              className="outline-none bg-transparent w-full h-32 max-h-56 resize-none text-white placeholder-gray-400"
               onChange={(e) => setUserInput(e.target.value)}
               type="text"
               placeholder={Lookup.INPUT_PLACEHOLDER}
@@ -237,13 +246,13 @@ const ChatView = () => {
               >
                 <ArrowRight
                   onClick={() => onGenerate(userInput)}
-                  className="bg-[#ff0] text-black drop-shadow-[0_0_10px_rgba(255,255,0,0.7)] p-2 h-8 w-8 rounded-md cursor-pointer"
+                  className="bg-[#ff0] text-black drop-shadow-[0_0_10px_rgba(255,255,0,0.7)] p-2 h-8 w-8 rounded-md cursor-pointer hover:shadow-[0_0_15px_rgba(255,255,0,0.9)] transition-shadow duration-300"
                 />
               </motion.div>
             )}
           </div>
-          <div>
-            <Link className="h-5 w-5" />
+          <div className="relative z-10">
+            <Link className="h-5 w-5 text-gray-400 hover:text-yellow-400 transition-colors duration-300" />
           </div>
         </motion.div>
       </div>

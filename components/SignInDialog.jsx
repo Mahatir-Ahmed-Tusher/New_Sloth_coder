@@ -15,6 +15,7 @@ import axios from "axios";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import uuid4 from "uuid4";
+import Image from "next/image";
 
 const SignInDialog = ({ openDialog, closeDialog }) => {
     const CreateUser = useMutation(api.users.createUser)
@@ -51,7 +52,7 @@ const googleLogin = useGoogleLogin({
           <DialogDescription asChild>
             <div className="flex flex-col items-center justify-center gap-3 ">
               <h2 className="font-bold text-2xl text-white text-center">
-            Continue with Init.New 2.0
+            Continue with Sloth Coder
               </h2>
               <p className="mt-2 text-center">{Lookup.SIGNIN_SUBHEADING}</p>
               <Button onClick={googleLogin} className={"bg-[#ff0] drop-shadow-[0_0_10px_rgba(255,255,0,0.7)] text-black cursor-pointer mt-3 hover:bg-[#fcfc47] " } >Sign In with Google</Button>

@@ -61,12 +61,12 @@ async function generateWithQwen(currPrompt, his = []) {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${apiKey}`,
-      "HTTP-Referer": "https://init.new",
-      "X-Title": "Init.new",
+      "HTTP-Referer": "https://slothcoder.com",
+      "X-Title": "Sloth Coder",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "qwen/qwen3-coder:free",
+      model: "qwen/qwen2.5-7b-instruct",
       messages: messages
     })
   });
@@ -92,8 +92,8 @@ async function generateWithDeepSeek(currPrompt, his = []) {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${apiKey}`,
-      "HTTP-Referer": "https://init.new",
-      "X-Title": "Init.new",
+      "HTTP-Referer": "https://slothcoder.com",
+      "X-Title": "Sloth Coder",
       "Content-Type": "application/json"
     },
     body: JSON.stringify({

@@ -51,7 +51,8 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        {Lookup.HERO_HEADING}
+        Build at Your Own Pace{" "}
+        <span className="text-yellow-400">with Sloth Coder</span>
       </motion.h2>
 
       <motion.p

@@ -45,7 +45,7 @@ const Header = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Left side - Sidebar Toggle and Logo */}
+        {/* Left side - Sidebar Toggle, Logo, and Navigation */}
         <div className="flex items-center gap-4">
           {/* Sidebar Toggle Button - Only show when user is logged in */}
           {userDetail && userDetail !== "loading" && (
@@ -79,6 +79,51 @@ const Header = () => {
               width={40}
               height={40}
             />
+          </motion.div>
+
+          {/* Navigation Items - Immediately to the right of logo */}
+          <motion.div
+            className="hidden md:flex items-center gap-6 ml-6"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                variant={"ghost"}
+                className="text-[#a8a8a8] hover:text-black hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(255,255,0,0.8)] hover:cursor-pointer font-medium transition-all duration-300"
+                onClick={() => router.push('/docs')}
+              >
+                Docs
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                variant={"ghost"}
+                className="text-[#a8a8a8] hover:text-black hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(255,255,0,0.8)] hover:cursor-pointer font-medium transition-all duration-300"
+                onClick={() => router.push('/blogs')}
+              >
+                Blogs
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                variant={"ghost"}
+                className="text-[#a8a8a8] hover:text-black hover:bg-yellow-400 hover:shadow-[0_0_15px_rgba(255,255,0,0.8)] hover:cursor-pointer font-medium transition-all duration-300"
+                onClick={() => router.push('/community')}
+              >
+                Community
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
 

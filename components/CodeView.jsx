@@ -1,12 +1,13 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import {
-  SandpackProvider,
+  SandpackProvider as OriginalSandpackProvider,
   SandpackLayout,
   SandpackCodeEditor,
   SandpackFileExplorer,
   SandpackPreview,
 } from "@codesandbox/sandpack-react";
+import { SandpackProvider } from "@/context/SandpackContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import Lookup from "@/data/Lookup";
@@ -69,10 +70,24 @@ const CodeView = () => {
     const res = await getAiResponseClient(
       `${JSON.stringify(msgs)} - ${Prompt.CODE_GEN_PROMPT}`
     );
-    // const { response } = await res.json();
+    
+    // Check if response exists and has the expected structure
+    if (!res || res.error) {
+      console.error("Error in AI response:", res?.error);
+      return;
+    }
+    
     const {response} = res;
-    // console.log("response", response);
-    // console.log("response.files", response?.files);
+    
+    // Check if response and response.files exist
+    if (!response || !response.files) {
+      console.error("Invalid response structure:", response);
+      return;
+    }
+    
+    console.log("response", response);
+    console.log("response.files", response.files);
+    
     const newFiles = response.files;
     const updatedFiles = { ...files, ...newFiles };
     setFiles(newFiles);
@@ -237,8 +252,37 @@ const CodeView = () => {
       // const contents = files
       console.log("files", files)
       const response = await getAiResponse(prompt, contents);
-      console.log("res txt" ,response.text);
-      const parsedResponse = JSON.parse(response.text);
+      
+      // Check if response exists and has the expected structure
+      if (!response) {
+        throw new Error("No response received from AI");
+      }
+      
+      // Handle different response structures from different AI models
+      let responseText;
+      if (response.text) {
+        responseText = response.text;
+      } else if (response.content && response.content[0] && response.content[0].text) {
+        responseText = response.content[0].text;
+      } else if (response.choices && response.choices[0] && response.choices[0].message) {
+        responseText = response.choices[0].message.content;
+      } else {
+        console.error("Unexpected response structure:", response);
+        throw new Error("Unexpected response structure from AI");
+      }
+      
+      console.log("res txt", responseText);
+      
+      // Try to parse the JSON response
+      let parsedResponse;
+      try {
+        parsedResponse = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Failed to parse JSON response:", parseError);
+        console.error("Raw response text:", responseText);
+        throw new Error("Invalid JSON response from AI");
+      }
+      
       const result = { response: parsedResponse };
       return result;
     } catch (error) {
@@ -299,7 +343,7 @@ const CodeView = () => {
         </SandpackLayout>
       </SandpackProvider> */}
 
-      <SandpackProvider
+      <OriginalSandpackProvider
         files={files}
         options={{
           externalResources: [
@@ -310,10 +354,12 @@ const CodeView = () => {
         template="react"
         customSetup={{ dependencies: { ...Lookup.DEPENDANCY } }}
       >
-        <SandpackLayout className="flex flex-col h-full">
-          <TabWatcher />
-        </SandpackLayout>
-      </SandpackProvider>
+        <SandpackProvider>
+          <SandpackLayout className="flex flex-col h-full">
+            <TabWatcher />
+          </SandpackLayout>
+        </SandpackProvider>
+      </OriginalSandpackProvider>
       {isGenerating && (
         <div className="p-10 bg-gray-900 opacity-50 absolute top-0 rounded-lg w-full h-full flex justify-center items-center">
           <Loader2Icon className="animate-spin h-10 w-10 text-white" />

@@ -10,7 +10,8 @@ import { googleLogout } from "@react-oauth/google";
 import { UiContext } from "@/context/UiContext";
 import { useSidebar } from "./ui/sidebar";
 import { ActionContext } from "@/context/ActionContext";
-import { LucideDownload, Rocket, Menu } from "lucide-react";
+import { LucideDownload, Rocket, Menu, Download } from "lucide-react";
+import { createAndDownloadZip, extractFilesFromSandpack } from "@/utils/zipUtils";
 import Sidebar from "./Sidebar";
 
 const Header = () => {
@@ -212,22 +213,56 @@ const Header = () => {
             }}
           >
             {pathname.includes("workspace") && (
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 10 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-              >
-                <Button
-                  variant={"ghost"}
-                  className="text-[#a8a8a8] hover:text-white hover:cursor-pointer"
-                  onClick={() => {
-                    onAction("export");
+              <>
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: { opacity: 1, y: 0 },
                   }}
                 >
-                  <LucideDownload /> Export
-                </Button>
-              </motion.div>
+                  <Button
+                    variant={"ghost"}
+                    className="text-[#a8a8a8] hover:text-white hover:cursor-pointer"
+                    onClick={() => {
+                      onAction("export");
+                    }}
+                  >
+                    <LucideDownload className="mr-1" /> Export
+                  </Button>
+                </motion.div>
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                >
+                  <Button
+                    variant={"ghost"}
+                    className="text-[#a8a8a8] hover:text-white hover:cursor-pointer"
+                    onClick={() => {
+                      // Get the current files from Sandpack
+                      const sandpackIframe = document.querySelector('iframe.sp-preview-iframe');
+                      if (sandpackIframe && sandpackIframe.contentWindow) {
+                        try {
+                          // Access the Sandpack client
+                          const sandpack = window.__SANDPACK_INSTANCE__;
+                          if (sandpack && sandpack.files) {
+                            const filesForZip = extractFilesFromSandpack(sandpack.files);
+                            createAndDownloadZip(filesForZip, 'Sloth-coder-generated.zip');
+                          } else {
+                            alert('Unable to access Sandpack files. Please try using the download button in the file explorer.');
+                          }
+                        } catch (error) {
+                          console.error('Error downloading project:', error);
+                          alert('Error downloading project. Please try using the download button in the file explorer.');
+                        }
+                      }
+                    }}
+                  >
+                    <Download className="mr-1" /> Download ZIP
+                  </Button>
+                </motion.div>
+              </>
             )}
 
             {/* <motion.div

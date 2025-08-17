@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Pacifico } from "next/font/google";
 import ConvexClientProvider from "./ConvexClientProvider";
+import BackgroundAnimation from "@/components/BackgroundAnimation";
 
 
 const geistSans = Geist({
@@ -36,6 +37,9 @@ export default function RootLayout({ children }) {
       >
         <div className="inset-0 bg-black/30 min-h-screen">
           <ConvexClientProvider>
+            {/* Background animation */}
+            <BackgroundAnimation />
+            
             {/* Light coming from the top */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-transparent mix-blend-lighten"></div>
 

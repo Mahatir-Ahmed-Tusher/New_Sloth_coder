@@ -14,6 +14,7 @@ import Prompt from "@/data/Prompt";
 import { Loader2Icon } from "lucide-react";
 import { useSandpack } from "@codesandbox/sandpack-react";
 import SandpackPreviewClient from "./SandpackPreviewClient";
+import EnhancedFileExplorer from "./EnhancedFileExplorer";
 // import TabWatcher from "./TabWatcher";
 
 const  TabWatcher = () => {
@@ -38,10 +39,9 @@ const  TabWatcher = () => {
         value="account"
         className="flex flex-col md:flex-row gap-2 h-[700px]"
       >
-        <SandpackFileExplorer
-          style={{ height: "80vh", width: "35%" }}
-          className="w-[25%] border-r"
-        />
+        <div style={{ height: "80vh", width: "35%" }} className="w-[25%] border-r">
+          <EnhancedFileExplorer />
+        </div>
         <SandpackCodeEditor
           style={{ height: "80vh" }}
           extensions={[autocompletion()]}
